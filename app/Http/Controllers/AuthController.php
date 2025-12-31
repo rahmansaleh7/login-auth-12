@@ -19,6 +19,20 @@ class AuthController extends Controller
         return back()->with('failed','Email atau password salah');
     }
 
+    public function register(Request $request){
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:50',
+            'password' => 'required|min:6|max:255',
+            'confirm_password' => 'required|same:password',
+        ]);
+
+        $request['status'] = "active";
+        $user = User::create($request->all());
+        User::create(data);
+        return redirect('/customer');
+    }
+
     public function logout(){
         Auth::logout(Auth::user());
         return redirect('/login');

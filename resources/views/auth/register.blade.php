@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Belajar Auth | Log in</title>
+    <title>Belajar Auth | Register</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -25,15 +25,26 @@
             @if (session('failed'))
                 <div class="alert alert-danger">{{session('failed')}}</div>
             @endif
-        <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg">Register Here</p>
 
-        <form action="/login" method="post">
+        <form action="/register" method="post">
             @csrf
+            @error('name')
+                <small class="text-danger">{{$message}}</small>
+            @enderror
+            <div class="input-group mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Name" id="name" value="{{old('name')}}">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                <span class="fas fa-user"></span>
+                </div>
+            </div>
+            </div>
             @error('email')
                 <small class="text-danger">{{$message}}</small>
             @enderror
             <div class="input-group mb-3">
-            <input type="email" name="email" class="form-control" placeholder="Email" id="email">
+            <input type="email" name="email" class="form-control" placeholder="Email" id="email" value="{{old('email')}}">
             <div class="input-group-append">
                 <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -51,18 +62,24 @@
                 </div>
             </div>
             </div>
+            @error('confirm_password')
+                <small class="text-danger">{{$message}}</small>
+            @enderror
+            <div class="input-group mb-3">
+            <input type="password" name="confirm_password" class="form-control" placeholder="Confirmation Password" id="confirm_password">
+            <div class="input-group-append show-confirm-password">
+                <div class="input-group-text">
+                <span class="fas fa-lock" id="confirm-password-lock"></span>
+                </div>
+            </div>
+            </div>
             <div class="row">
             <div class="col-8">
-                <div class="icheck-primary">
-                <input type="checkbox" name="remember" id="remember">
-                <label for="remember">
-                    Remember Me
-                </label>
-                </div>
+                
             </div>
             <!-- /.col -->
             <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
             </div>
             <!-- /.col -->
             </div>
@@ -80,10 +97,10 @@
         <!-- /.social-auth-links -->
 
         <p class="mb-1">
-            <a href="forgot-password.html">I forgot my password</a>
+            already have an account?
         </p>
         <p class="mb-0">
-            <a href="/register" class="text-center">Register a new membership</a>
+            <a href="/login" class="text-center">Login Here!</a>
         </p>
         </div>
         <!-- /.login-card-body -->
@@ -106,6 +123,15 @@
         } else {
             $('#password').attr('type', 'password');
             $('#password-lock').attr('class', 'fas fa-lock');
+        }
+    })
+    $('.show-confirm-password').on('click', function () {
+        if($('#confirm_password').attr('type') === 'password') {
+            $('#confirm_password').attr('type', 'text');
+            $('#confirm-password-lock').attr('class', 'fas fa-unlock');
+        } else {
+            $('#confirm_password').attr('type', 'password');
+            $('#confirm-password-lock').attr('class', 'fas fa-lock');
         }
     })
 </script>
