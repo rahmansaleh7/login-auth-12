@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -27,9 +28,9 @@ class AuthController extends Controller
             'confirm_password' => 'required|same:password',
         ]);
 
-        $request['status'] = "active";
+        $request['status'] = "verify";
         $user = User::create($request->all());
-        User::create(data);
+        Auth::login($user);
         return redirect('/customer');
     }
 
